@@ -1,6 +1,6 @@
 import enum
 
-from sqlalchemy import Column, Integer, Float, String, Date, Time, Enum, Boolean, ForeignKey, MetaData, Table
+from sqlalchemy import Column, Integer, Float, String, Date, Enum, Time, Boolean, ForeignKey, MetaData, Table
 from sqlalchemy.orm import relationship
 
 from db import Base
@@ -29,12 +29,12 @@ class Weather(Base):
     __tablename__ = 'weather'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    country = Column(String, nullable=False)
+    country = Column(String(255), nullable=False)
     last_updated = Column(Date, nullable=False)
     sunrise = Column(Time, nullable=False)
     wind_degree = Column(Integer, nullable=False)
     wind_kph = Column(Float, nullable=False)
-    wind_direction = Column(Enum(WindDirectionEnum), nullable=False)
+    wind_direction = Column(Enum(WindDirectionEnum))
     is_it_safe_to_go_out = Column(Boolean, nullable=False)
     precipitation_id = Column(Integer, ForeignKey('precipitation.id'))
     precipitation = relationship("Precipitation", back_populates="weather")
@@ -55,12 +55,12 @@ weather_table = Table(
     "weather",
     metadata_obj,
     Column("id", Integer, primary_key=True, autoincrement=True),
-    Column("country", String, nullable=False),
+    Column("country", String(255), nullable=False),
     Column("last_updated", Date, nullable=False),
     Column("sunrise", Time, nullable=False),
     Column("wind_degree", Integer, nullable=False),
     Column("wind_kph", Float, nullable=False),
-    Column("wind_direction", Enum(WindDirectionEnum), nullable=False),
+    Column("wind_direction", Enum(WindDirectionEnum)),
     Column("is_it_safe_to_go_out", Boolean, nullable=False),
     Column("precipitation_id", Integer, ForeignKey("precipitation.id"), nullable=False),
 )
